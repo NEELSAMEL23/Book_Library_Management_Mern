@@ -24,7 +24,7 @@ app.use("/uploads", express.static("uploads"));
 // Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/books", booksRoutes);      // Public routes
-app.use("/api/mybooks", myBooksRoutes);  // Protected routes
+app.use("/api/my-books", myBooksRoutes);  // Protected routes
 
 
 app.get("/", (req, res) => {
