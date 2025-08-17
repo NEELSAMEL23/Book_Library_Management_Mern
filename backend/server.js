@@ -16,7 +16,14 @@ connectDB();
 
 const app = express();
 
-app.use(cors({ origin: true, credentials: true }));
+app.use(cors({
+  origin: [
+    "https://book-library-management-mern-frontend.onrender.com", // your frontend
+    "http://localhost:5173", // for local dev
+  ],
+  credentials: true,
+}));
+
 app.use(express.json());
 app.use(cookieParser());
 app.use("/uploads", express.static("uploads"));
