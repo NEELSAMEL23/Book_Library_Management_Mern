@@ -31,13 +31,15 @@ export const registerUser = async (req, res) => {
         const hashedPassword = await bcrypt.hash(password, 10);
         const user = await User.create({ name, email, password: hashedPassword, avatar: avatarUrl });
 
+        // set cookie here
+        generateToken(res, user._id);
+
         res.status(201).json({
             _id: user._id,
             name: user.name,
             email: user.email,
             avatar: user.avatar,
             role: user.role,
-            token: generateToken(user._id),
         });
     } catch (err) {
         res.status(500).json({ message: err.message });
@@ -48,32 +50,47 @@ export const loginUser = async (req, res) => {
     try {
         const { email, password } = req.body;
 
-        // Trim email to prevent accidental spaces
         const user = await User.findOne({ email: email.trim() });
         if (!user) {
             return res.status(401).json({ message: "Invalid credentials" });
         }
 
-        // Validate password
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
             return res.status(401).json({ message: "Invalid credentials" });
         }
 
-        // Send response
+        // set cookie here
+        generateToken(res, user._id);
+
         res.json({
             _id: user._id,
             name: user.name,
             email: user.email,
             avatar: user.avatar,
             role: user.role || "user",
-            token: generateToken(user._id),
         });
     } catch (err) {
         console.error("Login error:", err);
         res.status(500).json({ message: "Server error, please try again later" });
     }
 };
+
+export const logoutUser = async (req, res) => {
+    try {
+        res.clearCookie("jwt", {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production",
+            sameSite: "strict",
+        });
+
+        res.status(200).json({ message: "Logout Successfully" });
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+};
+
+
 
 
 export const getUserProfile = async (req, res) => {

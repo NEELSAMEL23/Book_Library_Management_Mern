@@ -5,6 +5,8 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import connectDB from "./config/db.js";
 import authRoutes from "./routes/authRoutes.js";
+import booksRoutes from "./routes/booksRoutes.js";
+import myBooksRoutes from "./routes/myBooksRoutes.js";
 
 
 import { errorHandler, notFound } from "./middlewares/errorMiddleware.js";
@@ -21,6 +23,8 @@ app.use("/uploads", express.static("uploads"));
 
 // Routes
 app.use("/api/auth", authRoutes);
+app.use("/api/books", booksRoutes);      // Public routes
+app.use("/api/mybooks", myBooksRoutes);  // Protected routes
 
 
 app.get("/", (req, res) => {
