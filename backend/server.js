@@ -17,14 +17,26 @@ connectDB();
 const app = express();
 
 // CORS configuration (secured for Vercel frontend)
+const whitelist = [
+    "http://localhost:5173",       // local frontend
+    "https://your-vercel-domain"   // deployed frontend
+];
+
 app.use(
     cors({
-        origin: "*",               // Allow requests from anywhere
+        origin: function (origin, callback) {
+            if (!origin || whitelist.indexOf(origin) !== -1) {
+                callback(null, true);
+            } else {
+                callback(new Error("Not allowed by CORS"));
+            }
+        },
         methods: ["GET", "POST", "PUT", "DELETE"],
         allowedHeaders: ["Content-Type", "Authorization"],
-        credentials: false         // credentials (cookies/auth headers) cannot be sent with wildcard origin
+        credentials: true
     })
 );
+
 
 app.use(express.json());
 app.use(cookieParser());
