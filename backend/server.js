@@ -17,25 +17,10 @@ connectDB();
 const app = express();
 
 // CORS configuration (secured for Vercel frontend)
-const whitelist = [
-    "http://localhost:5173",       // local frontend
-    "https://vercel.com/neel-samels-projects/book-library-management-mern"   // deployed frontend
-];
-
-app.use(
-    cors({
-        origin: function (origin, callback) {
-            if (!origin || whitelist.indexOf(origin) !== -1) {
-                callback(null, true);
-            } else {
-                callback(new Error("Not allowed by CORS"));
-            }
-        },
-        methods: ["GET", "POST", "PUT", "DELETE"],
-        allowedHeaders: ["Content-Type", "Authorization"],
-        credentials: true
-    })
-);
+app.use(cors({
+  origin: "https://book-library-management-mern-89ivukh24-neel-samels-projects.vercel.app",
+  credentials: true, // needed if sending cookies
+}));
 
 
 app.use(express.json());
