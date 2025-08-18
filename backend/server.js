@@ -1,4 +1,3 @@
-// server.js
 import dotenv from "dotenv";
 dotenv.config();
 import express from "express";
@@ -8,20 +7,23 @@ import connectDB from "./config/db.js";
 import authRoutes from "./routes/authRoutes.js";
 import booksRoutes from "./routes/booksRoutes.js";
 import myBooksRoutes from "./routes/myBooksRoutes.js";
+
+
 import { errorHandler, notFound } from "./middlewares/errorMiddleware.js";
 
-// Connect to MongoDB
+// Connect DB
 connectDB();
 
 const app = express();
 
-// CORS configuration for deployed Vercel frontend
+// CORS configuration (secured for Vercel frontend)
 app.use(cors({
-    origin: "https://book-library-management-mern-89ivukh24-neel-samels-projects.vercel.app", // your frontend URL
-    credentials: true, // allow cookies
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
+  origin: "https://book-library-management-mern-89ivukh24-neel-samels-projects.vercel.app",
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
 }));
+
 
 app.use(express.json());
 app.use(cookieParser());
@@ -30,14 +32,13 @@ app.use("/uploads", express.static("uploads"));
 // Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/books", booksRoutes);      // Public routes
-app.use("/api/my-books", myBooksRoutes); // Protected routes
+app.use("/api/my-books", myBooksRoutes);  // Protected routes
 
-// Test route
+
 app.get("/", (req, res) => {
     res.send("Book Library API is running...");
 });
 
-// Error middlewares
 app.use(notFound);
 app.use(errorHandler);
 
