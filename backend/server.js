@@ -17,12 +17,26 @@ connectDB();
 const app = express();
 
 // CORS configuration (secured for Vercel frontend)
+const allowedOrigins = [
+    "http://localhost:5173", // local dev
+    "https://book-library-management-mern-89ivukh24-neel-samels-projects.vercel.app" // deployed frontend
+];
+
 app.use(cors({
-  origin: "https://book-library-management-mern-89ivukh24-neel-samels-projects.vercel.app",
-  credentials: true,
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization"],
+    origin: function (origin, callback) {
+        // allow requests with no origin (like mobile apps or curl)
+        if (!origin) return callback(null, true);
+        if (allowedOrigins.includes(origin)) {
+            return callback(null, true);
+        } else {
+            return callback(new Error("CORS not allowed for this origin"), false);
+        }
+    },
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
 }));
+
 
 
 app.use(express.json());
