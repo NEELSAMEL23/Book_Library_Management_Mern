@@ -16,13 +16,15 @@ connectDB();
 
 const app = express();
 
-app.use(cors({
-  origin: [
-    "https://book-library-management-mern-frontend.onrender.com", // your frontend
-    "http://localhost:5173", // for local dev
-  ],
-  credentials: true,
-}));
+// CORS configuration (secured for Vercel frontend)
+app.use(
+    cors({
+        origin: "*",               // Allow requests from anywhere
+        methods: ["GET", "POST", "PUT", "DELETE"],
+        allowedHeaders: ["Content-Type", "Authorization"],
+        credentials: false         // credentials (cookies/auth headers) cannot be sent with wildcard origin
+    })
+);
 
 app.use(express.json());
 app.use(cookieParser());
