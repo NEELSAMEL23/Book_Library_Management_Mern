@@ -19,7 +19,7 @@ const app = express();
 // CORS configuration (secured for Vercel frontend)
 const whitelist = [
     "http://localhost:5173",       // local frontend
-    "https://your-vercel-domain"   // deployed frontend
+    "https://vercel.com/neel-samels-projects/book-library-management-mern"   // deployed frontend
 ];
 
 app.use(
