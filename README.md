@@ -3,13 +3,14 @@
 <p align="center">
   A full-stack book library management system with user authentication, book management, and personalized reading lists.
   <br><br>
-  <a href="book-library-management-mern.vercel.app">
+  <a href="https://book-library-management-mern.vercel.app" target="_blank">
     <img src="https://img.shields.io/badge/Frontend-Live-blue?style=for-the-badge" alt="Frontend Live Demo">
   </a>
-  <a href="https://book-library-management-mern.onrender.com">
+  <a href="https://book-library-management-mern.onrender.com" target="_blank">
     <img src="https://img.shields.io/badge/Backend-API-green?style=for-the-badge" alt="Backend API">
   </a>
 </p>
+
 
 ---
 
